@@ -14,20 +14,39 @@ colors_list = []
 
 for N in N_values:
     hits = 0
-    x_points = []
-    y_points = []
     colors = []
 
-    for _ in range(N):
-        x = rnd()
-        y = rnd()
-        x_points.append(x)
-        y_points.append(y)
+    # x_points = []
+    # y_points = []
+    # for _ in range(N):
+    #     x = rnd()
+    #     y = rnd()
+    #     x_points.append(x)
+    #     y_points.append(y)
+    #     if 1 - x**2 - y**2 > 0:
+    #         hits += 1
+    #         colors.append('red')
+    #     else:
+    #         colors.append('blue')
+
+    r = [rnd() for _ in range(2*N)]
+    x_points = r[0::2]
+    y_points = r[1::2]
+    for x, y in zip(x_points, y_points):
         if 1 - x**2 - y**2 > 0:
             hits += 1
             colors.append('red')
         else:
             colors.append('blue')
+
+    # np.random.seed(1234)
+    # x_points = np.random.rand(N)
+    # y_points = np.random.rand(N)
+
+    # inside = (1 - x_points**2 - y_points**2) > 0
+    # hits = np.sum(inside)
+
+    # colors = np.where(inside, 'red', 'blue')
 
     pi_estimate = 4/N * hits
     pi_estimates.append(pi_estimate)
@@ -37,20 +56,21 @@ for N in N_values:
     colors_list.append(colors)
 
 # Plots
-nrows, ncols = 2, 4
+nrows, ncols = 2, 3
 fig1, axes1 = plot.subplots(nrows, ncols, figsize=(3.5*ncols, 3.5*nrows))
 axes1 = axes1.flatten()
-for idx, N in enumerate(N_values):
-    axes1[idx].scatter(x_points_list[idx], y_points_list[idx], c=colors_list[idx], s=1)
+for i, N in enumerate(N_values[0:6]):
+    axes1[i].scatter(x_points_list[i], y_points_list[i], c=colors_list[i], s=1)
     theta = np.linspace(0, np.pi/2, 300)
-    axes1[idx].plot(np.cos(theta), np.sin(theta), color='black', linewidth=2)
-    axes1[idx].set_aspect('equal')
-    axes1[idx].set_title(f"N={N}")
-    axes1[idx].set_xlabel("x")
-    axes1[idx].set_ylabel("y")
+    axes1[i].plot(np.cos(theta), np.sin(theta), color='black', linewidth=2)
+    axes1[i].set_aspect('equal')
+    axes1[i].set_title(r"$N = {}, \pi \approx {:.4f}$".format(N, pi_estimates[i]))
+    axes1[i].set_xlabel("x")
+    axes1[i].set_ylabel("y")
 
-# for idx in range(len(N_values), nrows*ncols):
-#     fig1.delaxes(axes1[idx])
+# b) Poisson estimate
+p = np.pi/4
+poisson_sigma = 4 * np.sqrt(p*(1-p)/np.array(N_values))
 
 fig1.suptitle("Pi estimation for different N")
 plot.tight_layout()
@@ -68,8 +88,9 @@ ax2.legend()
 
 ax3.plot(N_values, errors, 'o-', label=r'|$\pi_{\rm est} - \pi$|')
 ax3.plot(N_values, 1/np.sqrt(np.array(N_values)), 'r--', label=r'1/$\sqrt{N}$ scaling')
+ax3.plot(N_values, poisson_sigma, 'g--', label='Poisson estimate')
 ax3.set_xscale('log')
-ax3.set_yscale('log')
+# ax3.set_yscale('log')
 ax3.set_xlabel("N")
 ax3.set_ylabel("Error")
 ax3.set_title("Error scaling with N")
