@@ -130,7 +130,7 @@ plot.show(block=False)
 
 ## Different N and seeds
 seeds = [4242, 1213, 9994, 5411, 43242, 1, 2]
-fig4, (ax4, ax5) = plot.subplots(1, 2, figsize=(10, 5))
+fig4, (ax4, ax5, ax6) = plot.subplots(1, 3, figsize=(15, 5))
 
 for s in seeds:
     pi_vals = []
@@ -160,6 +160,15 @@ ax5.set_xlabel("N")
 ax5.set_ylabel("Error")
 ax5.set_title("Error scaling with N for different seeds")
 ax5.legend()
+
+ax6.plot(N_values, 1/np.sqrt(np.array(N_values)), 'r--', label=r'1/$\sqrt{N}$ scaling', linewidth=2)
+ax6.plot(N_values, poisson_sigma, 'g--', label='Poisson estimate', linewidth=2)
+ax6.set_xscale('log')
+ax6.set_xlabel("logN")
+ax6.set_yscale('log')
+ax6.set_ylabel("Error")
+ax6.set_title("Error scaling with N for different seeds")
+ax6.legend()
 
 plot.tight_layout()
 plot.show()
