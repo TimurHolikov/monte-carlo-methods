@@ -17,15 +17,15 @@ def monte_carlo_pi(N_values, seed = None):
         hits = 0
         colors = []
 
-        # r = [rnd() for _ in range(2*N)]
-        # x_points = r[0::2]
-        # y_points = r[1::2]
-        # for x, y in zip(x_points, y_points):
-        #     if 1 - x**2 - y**2 > 0:
-        #         hits += 1
-        #         colors.append('red')
-        #     else:
-        #         colors.append('blue')
+        r = [rnd() for _ in range(2*N)]
+        x_points = r[0::2]
+        y_points = r[1::2]
+        for x, y in zip(x_points, y_points):
+            if 1 - x**2 - y**2 > 0:
+                hits += 1
+                colors.append('red')
+            else:
+                colors.append('blue')
 
         # x_points = []
         # y_points = []
@@ -40,14 +40,14 @@ def monte_carlo_pi(N_values, seed = None):
         #     else:
         #         colors.append('blue')
 
-        np.random.seed(seed)
-        x_points = np.random.rand(N)
-        y_points = np.random.rand(N)
+        # np.random.seed(seed)
+        # x_points = np.random.rand(N)
+        # y_points = np.random.rand(N)
 
-        inside = (1 - x_points**2 - y_points**2) > 0
-        hits = np.sum(inside)
+        # inside = (1 - x_points**2 - y_points**2) > 0
+        # hits = np.sum(inside)
 
-        colors = np.where(inside, 'red', 'blue')
+        # colors = np.where(inside, 'red', 'blue')
 
         pi_estimate = 4/N * hits
         pi_estimates.append(pi_estimate)
@@ -130,19 +130,36 @@ plot.show(block=False)
 
 ## Different N and seeds
 seeds = [4242, 1213, 9994, 5411, 43242, 1, 2]
+fig4, (ax4, ax5) = plot.subplots(1, 2, figsize=(10, 5))
 
-plot.figure(figsize=(8, 5))
 for s in seeds:
     pi_vals = []
+    errors_list = []
     for N in N_values:
-        pi_est, _, _, _, _ = monte_carlo_pi([N], seed=s)
+        pi_est, errors_seeds, _, _, _ = monte_carlo_pi([N], seed=s)
         pi_vals.append(pi_est[0])
-    plot.plot(N_values, pi_vals, 'o-', label=f'seed={s}')
+        errors_list.append(errors_seeds[0])
 
-plot.axhline(np.pi, color='gray', linestyle='--', label=r'Exact $\pi$')
-plot.xscale('log')
-plot.xlabel('N')
-plot.ylabel('π estimate')
-plot.title('π estimates for different seeds and N')
-plot.legend()
+    ax4.plot(N_values, pi_vals, 'o-', label=f'seed={s}', alpha=0.7)
+    ax5.plot(N_values, errors_list, 'o-', alpha=0.7)
+
+# --- Left subplot: π estimates convergence ---
+ax4.axhline(np.pi, color='gray', linestyle='--', label=r'Exact $\pi$')
+ax4.set_xscale('log')
+ax4.set_xlabel("N")
+ax4.set_ylabel(r"$\pi$ estimate")
+ax4.set_title("Monte Carlo Convergence for different seeds")
+ax4.legend()
+
+# --- Right subplot: Error scaling for different seeds ---
+ax5.plot(N_values, 1/np.sqrt(np.array(N_values)), 'r--', label=r'1/$\sqrt{N}$ scaling', linewidth=2)
+ax5.plot(N_values, poisson_sigma, 'g--', label='Poisson estimate', linewidth=2)
+ax5.set_xscale('log')
+ax5.set_xlabel("N")
+# ax5.set_yscale('log')
+ax5.set_ylabel("Error")
+ax5.set_title("Error scaling with N for different seeds")
+ax5.legend()
+
+plot.tight_layout()
 plot.show()
