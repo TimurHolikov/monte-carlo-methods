@@ -17,15 +17,15 @@ def monte_carlo_pi(N_values, seed = None):
         hits = 0
         colors = []
 
-        r = [rnd() for _ in range(2*N)]
-        x_points = r[0::2]
-        y_points = r[1::2]
-        for x, y in zip(x_points, y_points):
-            if 1 - x**2 - y**2 > 0:
-                hits += 1
-                colors.append('red')
-            else:
-                colors.append('blue')
+        # r = [rnd() for _ in range(2*N)]
+        # x_points = r[0::2]
+        # y_points = r[1::2]
+        # for x, y in zip(x_points, y_points):
+        #     if 1 - x**2 - y**2 > 0:
+        #         hits += 1
+        #         colors.append('red')
+        #     else:
+        #         colors.append('blue')
 
         # x_points = []
         # y_points = []
@@ -40,14 +40,14 @@ def monte_carlo_pi(N_values, seed = None):
         #     else:
         #         colors.append('blue')
 
-        # np.random.seed(1234)
-        # x_points = np.random.rand(N)
-        # y_points = np.random.rand(N)
+        np.random.seed(seed)
+        x_points = np.random.rand(N)
+        y_points = np.random.rand(N)
 
-        # inside = (1 - x_points**2 - y_points**2) > 0
-        # hits = np.sum(inside)
+        inside = (1 - x_points**2 - y_points**2) > 0
+        hits = np.sum(inside)
 
-        # colors = np.where(inside, 'red', 'blue')
+        colors = np.where(inside, 'red', 'blue')
 
         pi_estimate = 4/N * hits
         pi_estimates.append(pi_estimate)
@@ -110,26 +110,28 @@ plot.tight_layout()
 plot.show(block=False)
 
 # c) Different seeds
-# ## Fixed N
-# N_value_b = 10000
-# seeds = [42, 123, 999, 2025, 0]
-# pi_values = []
+## Fixed N
+N_value_b = 150000
+# seeds = list(range(300))
+seeds = random.sample(range(1, 100001), 300)
+pi_values = []
 
-# for s in seeds:
-#     pi_est, _, _, _, _ = monte_carlo_pi([N_value_b], seed=s)
-#     pi_values.append(pi_est[0])
+for s in seeds:
+    pi_est, _, _, _, _ = monte_carlo_pi([N_value_b], seed=s)
+    pi_values.append(pi_est[0])
 
-# plot.figure()
-# plot.hist(pi_values, bins=5, edgecolor='black')
-# plot.xlabel('π estimate')
-# plot.ylabel('Counts')
-# plot.title(f'Histogram of π estimates for N={N_value_b} and different seeds')
-# plot.show(block=False)
+plot.figure()
+plot.hist(pi_values, bins=60, alpha=0.7, edgecolor='black')
+plot.axvline(np.pi, color='red', linestyle='--', label='Exact π')
+plot.xlabel('π estimate')
+plot.ylabel('Counts')
+plot.title(f'Histogram of π estimates for N={N_value_b} and different seeds')
+plot.show(block=False)
 
 ## Different N and seeds
 seeds = [4242, 1213, 9994, 5411, 43242, 1, 2]
 
-plot.figure()
+plot.figure(figsize=(8, 5))
 for s in seeds:
     pi_vals = []
     for N in N_values:
