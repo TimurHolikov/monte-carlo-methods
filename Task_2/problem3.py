@@ -28,7 +28,7 @@ def problem_3a(N = 50_000, alpha = 1.0, seed = 1):
     t = np.linspace(0, np.pi/2, 300)
     plt.figure(figsize=(6,6))
     plt.scatter(x, y, s=5, alpha=0.7, label="accepted")
-    plt.plot(np.cos(t), np.sin(t), lw=1.5, label="x^2+y^2=1")
+    plt.plot(np.cos(t), np.sin(t), lw=1.5, label=r"x^2+y^2=1")
     plt.axvline(1/3, ls="--", lw=1); plt.axhline(1/5, ls="--", lw=1)
     plt.gca().set_aspect('equal', 'box'); plt.xlim(0,1); plt.ylim(0,1)
     plt.title(r"Problem 3(a): g_$\alpha$ ≡ const, $\alpha$=1")
