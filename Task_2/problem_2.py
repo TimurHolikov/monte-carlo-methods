@@ -1,7 +1,6 @@
 import numpy as np
 from numpy.random import random as rnd
 import matplotlib.pyplot as plot
-from typing import Tuple, Sequence
 
 def mc_sample_inversion(N):
     # f(x) = x^2 on [0,1) -> F(x) = x^3 -> x = u^(1/3)
