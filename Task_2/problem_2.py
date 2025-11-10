@@ -1,6 +1,7 @@
 import numpy as np
 from numpy.random import random as rnd
 import matplotlib.pyplot as plot
+from typing import Tuple, Sequence
 
 def mc_sample_inversion(N):
     # f(x) = x^2 on [0,1) -> F(x) = x^3 -> x = u^(1/3)
@@ -8,14 +9,14 @@ def mc_sample_inversion(N):
     x = np.cbrt(u)
     return x
 
+def bin_avg_theory(edges):
+    # For p(x)=3x^2 on [0,1]: h = (b^3 - a^3)/(b - a)
+    a = edges[:-1]
+    b = edges[1:]
+    return (b**3 - a**3) / (b - a)
+
 
 def problem_2a(N = 100_000, bins = 40):
-    def bin_avg_theory(edges):
-        # For p(x)=3x^2 on [0,1]: h = (b^3 - a^3)/(b - a)
-        a = edges[:-1]
-        b = edges[1:]
-        return (b**3 - a**3) / (b - a)
-
     def moment(k):
         # E[X^k] = ∫_0^1 x^k * p(x) dx = ∫_0^1 x^k * 3x^2 dx = 3 ∫_0^1 x^{k+2} dx
         # ∫_0^1 x^n dx = 1/(n+1)
@@ -59,8 +60,8 @@ def problem_2a(N = 100_000, bins = 40):
     print(f"Max |diff| across bins: {max_abs:.4e}")
 
     mu_true, var_true = mean_and_var()
-    print(f"E[X] exact(by integral) = {mu_true:.6f}, MC ≈ {x.mean():.6f}")
-    print(f"Var exact(by integral) = {var_true:.6f}, MC ≈ {x.var(ddof=0):.6f} \n")
+    print(f"<X> = {mu_true:.6f}, MC ≈ {x.mean():.6f}")
+    print(f"Var = {var_true:.6f}, MC ≈ {x.var(ddof=0):.6f} \n")
 
 def problem_2b(N = 100_000, bins = 40):
     x = mc_sample_inversion(N)
@@ -112,7 +113,6 @@ def problem_2b(N = 100_000, bins = 40):
     print("Comparison to theory sqrt((1-p)/(N p)):")
     summarize("empirical vs theory", rel_err, rel_err_theory)
 
-
 if __name__ == "__main__":
-    # problem_2a(2_000_000)
-    # problem_2b(2_000_000)
+    problem_2a(2_000_000)
+    problem_2b(2_000_000)
