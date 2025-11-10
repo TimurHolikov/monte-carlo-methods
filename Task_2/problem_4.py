@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.integrate import quad
+from tabulate import tabulate
 
 def f(x, y):
     return (x**2 + y**2) * (x**2 + y**2 <= 1.0) * (x >= 1/3) * (y >= 1/5)
@@ -32,20 +32,28 @@ def exact_integral(nx=1500, ny=1500):
     X, Y = np.meshgrid(x, y, indexing='xy')
 
     F = (X**2 + Y**2) * (X**2 + Y**2 <= 1.0) * (X >= 1/3) * (Y >= 1/5)
-    Iy = np.trapezoid(F, y)
+    Iy = np.trapezoid(F, y, axis=0)
     return np.trapezoid(Iy, x)
 
 if __name__ == "__main__":
     N = 2_000_000
-    I_flat, err_flat = mc_integrate(N, sample_flat, g_flat, seed=11)
-    I_gb,   err_gb   = mc_integrate(N, sample_gb,   g_b,   seed=12)
+    I_flat, err_flat = mc_integrate(N, sample_flat, g_flat, seed=17721)
+    I_gb,   err_gb   = mc_integrate(N, sample_gb,   g_b,   seed=17721)
     I_exact = exact_integral()
+    ratio = err_flat / err_gb
 
     print(f"\nExact I = {I_exact:.8f}")
     print(f"Flat g=1: I≈{I_flat:.8f} ± {err_flat:.2e}")
-    print(f"Imp. g_b=x+y: I≈{I_gb:.8f} ± {err_gb:.2e} \n")
+    print(f"Imp. g_b=x+y: I≈{I_gb:.8f} ± {err_gb:.2e}")
+    print(f"Error ratio (flat/gb) = {ratio:.3f}  → variance gain ≈ {ratio**2:.2f}x\n")
 
-    # for seed in range(10):
-    #     I_flat, err_flat = mc_integrate(N, sample_flat, g_flat, seed)
-    #     I_gb,   err_gb   = mc_integrate(N, sample_gb,   g_b,   seed)
-    #     print(f"{seed:2d} | flat {I_flat:.6f} | gb {I_gb:.6f}")
+    # rows = []
+    # rng = np.random.default_rng()
+    # for _ in range(10):
+    #     seed = rng.integers(0, 2**16 - 1)
+    #     I_flat, _ = mc_integrate(N, sample_flat, g_flat, seed)
+    #     I_gb, _ = mc_integrate(N, sample_gb, g_b, seed)
+    #     rows.append([int(seed), I_flat, I_gb, I_exact])
+
+    # headers = ["seed", "flat", "gb", "exact"]
+    # print(tabulate(rows, headers=headers, floatfmt=".8f", tablefmt="grid"))
