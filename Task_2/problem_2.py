@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 from numpy.random import random as rnd
 import matplotlib.pyplot as plot
@@ -87,7 +88,7 @@ def problem_2b(N = 100_000, bins = 40):
     
     # 5) plot comparisons
     sigma_theory_frac = p_theory*(1.0 - p_theory)/N  # Var( Nbin/N )
-    (ax1, ax2) = plot.subplots(1, 2, figsize=(11,4))
+    _, (ax1, ax2) = plot.subplots(1, 2, figsize=(11,4))
 
     ax1.plot(centers, rel_err, 'o', ms=5, alpha=0.8,
                       label=r'$\frac{\sqrt{\sigma_{bin}}}{N_{bin}/N}$')

@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 import matplotlib.pyplot as plot
 
@@ -79,4 +80,3 @@ def problem_3b(N = 50_000, beta = 0.848, seed = 2):
 if __name__ == "__main__":
     xa, ya, acc_a = problem_3a(N=40_000, alpha=1.0, seed=11)
     xb, yb, acc_b = problem_3b(N=40_000, beta=0.848, seed=12)
-    
