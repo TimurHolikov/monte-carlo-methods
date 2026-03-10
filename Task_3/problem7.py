@@ -6,6 +6,12 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-v0_8-darkgrid')
 
 DIRS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+ALLOWED = {
+    (1,0):  [(1,0),(0,1),(0,-1)],
+    (-1,0): [(-1,0),(0,1),(0,-1)],
+    (0,1):  [(0,1),(1,0),(-1,0)],
+    (0,-1): [(0,-1),(1,0),(-1,0)],
+}
 
 def walk_veto(N):
     x, y = 0, 0
@@ -30,9 +36,7 @@ def walk_memory(N):
         if prev is None:
             dx, dy = choice(DIRS)
         else:
-            back = (-prev[0], -prev[1])
-            allowed = [v for v in DIRS if v != back]  # 3 directions
-            dx, dy = choice(allowed)
+            dx, dy = choice(ALLOWED[prev])
 
         x += dx
         y += dy
@@ -68,11 +72,11 @@ if __name__ == "__main__":
     tm = benchmark(walk_memory, N=N_perf, M=M_perf)
 
     print("Performance comparison")
-    print(f"veto:   {tv:.3f} s  (N={N_perf}, M={M_perf})")
-    print(f"memory: {tm:.3f} s  (N={N_perf}, M={M_perf})")
+    print(f"veto: {tv:.3f} s (N={N_perf}, M={M_perf})")
+    print(f"memory: {tm:.3f}s (N={N_perf}, M={M_perf})")
     print(f"speedup (veto/memory): {tv/tm:.2f}x")
 
-    # Optional: Compare <r^2(N)> scaling
+    # Compare <r^2(N)> scaling
     Ns = list(range(10, 501, 10))
     M_msd = 5000
 

@@ -52,7 +52,7 @@ def random_walk_final_gaussian(N):
     x, y = 0.0, 0.0
     for _ in range(N):
         dx, dy = choice(DIRS)
-        kappa = gauss(0.0, 1.0)   # Gaussian N(0,1)
+        kappa = abs(gauss(0.0, 1.0))   # Gaussian N(0,1)
         x += kappa * dx
         y += kappa * dy
     return x, y
@@ -77,7 +77,7 @@ print("\nGaussian step length (d):")
 for N in [10, 50, 100, 200, 500, 1000]:
     print(N, mean_r2_gaussian(N, M=20000))
 
-# --- optional: plot MSD curves ---
+# plot curves
 Ns = list(range(1, 401))
 M = 5000
 
@@ -101,3 +101,4 @@ plt.ylabel(r"$\langle r^2(N)\rangle / N$")
 plt.title("MSD/N")
 plt.legend()
 plt.show()
+# %%
