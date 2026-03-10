@@ -18,8 +18,6 @@ def bin_avg_theory(edges):
 
 def problem_2a(N = 100_000, bins = 40):
     def moment(k):
-        # E[X^k] = ∫_0^1 x^k * p(x) dx = ∫_0^1 x^k * 3x^2 dx = 3 ∫_0^1 x^{k+2} dx
-        # ∫_0^1 x^n dx = 1/(n+1)
         return 3.0 / (k + 3.0)
 
     def mean_and_var():
@@ -70,7 +68,7 @@ def problem_2b(N = 100_000, bins = 40):
     w = np.diff(edges) # bin widths
     centers = 0.5 * (edges[:-1] + edges[1:])
 
-    # 3) theoretical bin probability: p_k = ∫_a^b 3x^2 dx = b^3 - a^3
+    # 3) theoretical bin probability
     a = edges[:-1]
     b = edges[1:]
     p_theory = b**3 - a**3

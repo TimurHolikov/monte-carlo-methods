@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 from tabulate import tabulate
 
@@ -38,14 +39,14 @@ def exact_integral(nx=1500, ny=1500):
 if __name__ == "__main__":
     N = 2_000_000
     I_flat, err_flat = mc_integrate(N, sample_flat, g_flat, seed=17721)
-    I_gb,   err_gb   = mc_integrate(N, sample_gb,   g_b,   seed=17721)
+    I_gb, err_gb = mc_integrate(N, sample_gb, g_b, seed=17721)
     I_exact = exact_integral()
     ratio = err_flat / err_gb
 
     print(f"\nExact I = {I_exact:.8f}")
-    print(f"Flat g=1: I≈{I_flat:.8f} ± {err_flat:.2e}")
-    print(f"Imp. g_b=x+y: I≈{I_gb:.8f} ± {err_gb:.2e}")
-    print(f"Error ratio (flat/gb) = {ratio:.3f}  → variance gain ≈ {ratio**2:.2f}x\n")
+    print(f"Flat g=1: I={I_flat:.8f} ± {err_flat:.2e}")
+    print(f"Imp. g_b=x+y: I={I_gb:.8f} ± {err_gb:.2e}")
+    print(f"Error ratio (flat/gb) = {ratio:.3f} -> variance gain = {ratio**2:.2f}x\n")
 
     # rows = []
     # rng = np.random.default_rng()
@@ -57,3 +58,4 @@ if __name__ == "__main__":
 
     # headers = ["seed", "flat", "gb", "exact"]
     # print(tabulate(rows, headers=headers, floatfmt=".8f", tablefmt="grid"))
+# %%

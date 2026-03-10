@@ -7,10 +7,6 @@ plt.style.use('seaborn-v0_8-darkgrid')
 
 DIRS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
-
-# -----------------------------
-# (a) Vetoing algorithm
-# -----------------------------
 def walk_veto(N):
     x, y = 0, 0
     prev = None  # previous step vector (dx, dy)
@@ -26,10 +22,6 @@ def walk_veto(N):
 
     return x, y
 
-
-# -----------------------------
-# (b) One-step memory algorithm
-# -----------------------------
 def walk_memory(N):
     x, y = 0, 0
     prev = None
@@ -48,10 +40,6 @@ def walk_memory(N):
 
     return x, y
 
-
-# -----------------------------
-# Helpers
-# -----------------------------
 def benchmark(fn, N=1000, M=20000):
     t0 = time.perf_counter()
     for _ in range(M):
@@ -71,10 +59,6 @@ def mean_r2(fn, N=1000, M=20000):
 def msd_curve(fn, Ns, M=5000):
     return [mean_r2(fn, N, M) for N in Ns]
 
-
-# -----------------------------
-# Main
-# -----------------------------
 if __name__ == "__main__":
     # Performance comparison
     N_perf = 2000

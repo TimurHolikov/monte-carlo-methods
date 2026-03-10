@@ -6,7 +6,7 @@ plt.style.use('seaborn-v0_8-darkgrid')
 
 DIRS = [(1,0), (0,1), (-1,0), (0,-1)]
 
-# --- (b) one walk: store the whole path ---
+# (b) one walk: store the whole path
 def random_walk_path(N):
     x, y = 0, 0
     path = [(x, y)]
@@ -30,7 +30,7 @@ def plot_one_walk(path):
     plt.legend()
     plt.show()
 
-# --- helper: final point only (faster for MSD) ---
+# helper: final point only
 def random_walk_final(N):
     x, y = 0, 0
     for _ in range(N):
@@ -39,7 +39,7 @@ def random_walk_final(N):
         y += dy
     return x, y
 
-# --- (c) mean squared distance for unit steps ---
+# (c) mean squared distance for unit steps
 def mean_r2_unit(N, M=10000):
     s = 0.0
     for _ in range(M):
@@ -47,7 +47,7 @@ def mean_r2_unit(N, M=10000):
         s += x*x + y*y
     return s / M
 
-# --- (d) Gaussian step length kappa ~ N(0,1), step = kappa * e_i ---
+# (d) Gaussian step length kappa ~ N(0,1), step = kappa * e_i
 def random_walk_final_gaussian(N):
     x, y = 0.0, 0.0
     for _ in range(N):
@@ -64,11 +64,11 @@ def mean_r2_gaussian(N, M=10000):
         s += x*x + y*y
     return s / M
 
-# --- run (b) ---
+# run (b)
 path = random_walk_path(100)
 plot_one_walk(path)
 
-# --- run (c) and (d) for some N ---
+# run (c) and (d)
 print("Unit step (c):")
 for N in [10, 50, 100, 200, 500, 1000]:
     print(N, mean_r2_unit(N, M=20000))
@@ -98,6 +98,6 @@ plt.plot(Ns, [msd_unit[i]/Ns[i] for i in range(len(Ns))], label="unit: MSD/N")
 plt.plot(Ns, [msd_gaus[i]/Ns[i] for i in range(len(Ns))], label="Gaussian: MSD/N")
 plt.xlabel("N")
 plt.ylabel(r"$\langle r^2(N)\rangle / N$")
-plt.title("MSD/N (should approach a constant)")
+plt.title("MSD/N")
 plt.legend()
 plt.show()

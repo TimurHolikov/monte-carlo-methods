@@ -143,7 +143,7 @@ for s in seeds:
     ax4.plot(N_values, pi_vals, 'o-', label=f'seed={s}', alpha=0.7)
     ax5.plot(N_values, errors_list, 'o-', alpha=0.7)
 
-# --- Left subplot: π estimates convergence ---
+# Left subplot: pi estimates convergence
 ax4.axhline(np.pi, color='gray', linestyle='--', label=r'Exact $\pi$')
 ax4.set_xscale('log')
 ax4.set_xlabel("N")
@@ -151,7 +151,7 @@ ax4.set_ylabel(r"$\pi$ estimate")
 ax4.set_title("Monte Carlo Convergence for different seeds")
 ax4.legend()
 
-# --- Right subplot: Error scaling for different seeds ---
+# Right subplot: Error scaling for different seeds
 ax5.plot(N_values, 1/np.sqrt(np.array(N_values)), 'r--', label=r'1/$\sqrt{N}$ scaling', linewidth=2)
 ax5.plot(N_values, poisson_sigma, 'g--', label='Poisson estimate', linewidth=2)
 ax5.set_xscale('log')

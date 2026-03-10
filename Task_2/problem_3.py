@@ -37,7 +37,7 @@ def problem_3a(N = 50_000, alpha = 1.0, seed = 1):
 
     return x, y, acc_ratio
 
-# ============== 3(b): g_b(x,y) = β (x+y) на [0,1]^2 =================
+# 3(b): g_b(x,y) = β (x+y) on [0,1]^2
 def sample_y_from_marginal(n, r):
     u = r.random(n)
     return 0.5 * (-1.0 + np.sqrt(1.0 + 8.0*u))
@@ -72,7 +72,7 @@ def problem_3b(N = 50_000, beta = 0.848, seed = 2):
     plot.plot(np.cos(t), np.sin(t), lw=1.5, label="x^2+y^2=1")
     plot.axvline(1/3, ls="--", lw=1); plot.axhline(1/5, ls="--", lw=1)
     plot.gca().set_aspect('equal', 'box'); plot.xlim(0,1); plot.ylim(0,1)
-    plot.title(r"Problem 3(b): $g_{\beta}$ ∝ (x+y), $\beta$≈0.848")
+    plot.title(r"Problem 3(b): $g_{\beta}$ prop. (x+y), $\beta$≈0.848")
     plot.xlabel("x"); plot.ylabel("y"); plot.legend(); plot.show()
 
     return x, y, acc_ratio
